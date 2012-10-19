@@ -8,7 +8,7 @@ A minimal perfect hash function also yields a compact hash table, without any va
 
 http://en.wikipedia.org/wiki/Perfect_hash_function
 
-The generator here is a port of Steve Hanov's perfect minimal hash generator.
+The generator here is a port of [Steve Hanov's perfect minimal hash generator](http://stevehanov.ca/blog/index.php?id=119).
 
 ## Installing
 
