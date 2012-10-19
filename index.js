@@ -4,11 +4,16 @@
 // Calculates a distinct hash function for a given string. Each value of the
 // integer d results in a different hash value.
 function hash( d, str) {
-  if(d == 0) { d = 0x01000193; }
+  if(d == 0) { d = 0x811c9dc5; }
   for(var i = 0; i < str.length; i++) {
-    d = ( (d * 0x01000193) ^ str.charCodeAt(i) ) & 0xffffffff;
+    // http://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function
+    // http://isthe.com/chongo/src/fnv/hash_32.c
+    // multiply by the 32 bit FNV magic prime mod 2^32
+    d += (d << 1) + (d << 4) + (d << 7) + (d << 8) + (d << 24);
+    // xor the bottom with the current octet
+    d ^= str.charCodeAt(i);
   }
-  return d;
+  return d & 0x7fffffff;
 }
 
 // Computes a minimal perfect hash table using the given Javascript object hash. It
@@ -18,7 +23,7 @@ function hash( d, str) {
 
 exports.create = function(dict) {
   var size = Object.keys(dict).length,
-      buckets = new Array(size),
+      buckets = [],
       G = new Array(size),
       values = new Array(size),
       i, b, bucket;
@@ -26,7 +31,10 @@ exports.create = function(dict) {
   // Place all of the keys into buckets
   Object.keys(dict).forEach(function(key) {
     var bkey = hash(0, key) % size;
-    (buckets[bkey] || (buckets[bkey] = [])).push( key );
+    if(!buckets[bkey]) {
+      buckets[bkey] = [];
+    }
+    buckets[bkey].push( key );
   });
 
   // Sort the buckets and process the ones with the most items first.

@@ -1,10 +1,19 @@
 var assert = require('assert')
     perfect = require('../index.js');
 
+function randChar(size) {
+  var result = '';
+  while(size > 0) {
+    result += String.fromCharCode( Math.floor(Math.random() * 94) + 32 );
+    size--;
+  }
+  return result;
+}
+
 function randomHash(size) {
   var result = {};
   while(size > 0) {
-    result[ size.toString(36) ] = size;
+    result[ randChar(10) ] = size;
     size--;
   }
   return result;
@@ -14,11 +23,12 @@ exports['can generate a perfect hash table for a random set of elements'] = func
   var dict = randomHash(100),
       tables = perfect.create(dict);
 
+    console.log(dict);
 //  console.log(tables);
 
   Object.keys(dict).forEach(function(key) {
+    console.log('key: ' + key +' expected: ' + dict[key] +' value: ' +  perfect.lookup( tables[0], tables[1], key));
     assert.equal(dict[key], perfect.lookup( tables[0], tables[1], key));
-    console.log('key: ' + key + ' value: ' +  perfect.lookup( tables[0], tables[1], key));
   });
 };
 
