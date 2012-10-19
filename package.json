@@ -1,0 +1,24 @@
+{
+  "name": "perfect",
+  "version": "0.0.0",
+  "description": "A perfect minimal hash function generator",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "node test/perfect.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mixu/perfect.git"
+  },
+  "keywords": [
+    "hash",
+    "minimal",
+    "perfect",
+    "hashing"
+  ],
+  "author": "Mikito Takada <mikito.takada@gmail.com>",
+  "license": "BSD"
+}
